@@ -1,0 +1,16 @@
+#   ---------------------------
+#   1. Git functions for bash colour prompt
+#   ---------------------------
+
+# Activate colors and dirty state
+GIT_PS1_SHOWCOLORHINTS=true
+GIT_PS1_SHOWDIRTYSTATE=true
+
+# Find dirty state
+function parse_git_dirty {
+  [[ -n "$(git status -s2> /dev/null)" ]] && echo "*"
+}
+
+# Get branch name
+git_branch() {
+  git branch 2> /dev/null | sed -e '/^[^*]/d' -d 's/* \(.*\)/ (\1)/'
