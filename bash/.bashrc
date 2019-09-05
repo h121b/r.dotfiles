@@ -1,3 +1,5 @@
+#! /bin/sh
+
 platform='unknown'
 username=$(whoami)
 
@@ -114,16 +116,23 @@ alias .4='cd ../../../../'                              # Go back 4 directory le
 alias .5='cd ../../../../../'                           # Go back 5 directory levels
 alias .6='cd ../../../../../../'                        # Go back 6 directory levels
 
-alias cdc='cd ~/zcode'
+alias cdc='cd ~/z.code'
+alias cda='cd ~/z.ansible'
+alias cdar='cd ~/.ansible/roles'
+alias cdn='cd ~/z.dotnet'
+alias cdp='cd ~/z.python'
+alias cdv='cd ~/r.devops'
+alias cdf='cd ~/r.dotfiles'
 alias cdr='cd ~/zrmac'
-alias cdp='cd ~/zpython'
 alias cdd='cd ~/zdisk'
-alias cda='cd ~/zcode/ansible'
-alias cdn='cd ~/z.NET'
 alias cdl='cd ~/zlinux'
-alias cdm='cd ~/zgmrepo'
-alias cdo='cd ~/zgorepo'
-alias cd0='cd "/od/OneDrive - sgl/zhs"'
+alias cdm='cd ~/zgrm'
+alias cdo='cd ~/zgro'
+alias cd0='cd "/od/OneDrive - sgl/"'
+alias cd0h='cd "/od/OneDrive - sgl/zhs"'
+alias cd0m='cd "/od/OneDrive - sgl/zgrm"'
+alias cd0o='cd "/od/OneDrive - sgl/zgro"'
+alias cd0a='cd "/od/OneDrive - sgl/zaro"'
 
 alias gs='git status'
 alias ga='git add -u;git add *'
