@@ -1,22 +1,28 @@
-#! /bin/sh
+#!/usr/bin/env bash
 
 platform='unknown'
 username=$(whoami)
 
-if [[ "$OSTYPE" == "linux-gnu" ]]; then
+#if [[ "$OSTYPE" == "linux-gnu" ]]; then
+if [[ "$OSTYPE" =~ "^linux.*" ]]; then
         platform='linux'
-elif [[ "$OSTYPE" == "darwin"* ]]; then
+#elif [[ "$OSTYPE" == "darwin"* ]]; then
+elif [[ "$OSTYPE" =~ "^darwin.*" ]]; then
         platform='osx'
-elif [[ "$OSTYPE" == "cygwin" ]]; then
+#elif [[ "$OSTYPE" == "cygwin" ]]; then
+elif [[ "$OSTYPE" =~ "^cygwin.*" ]]; then
         # POSIX compatibility layer and Linux environment emulation for Windows
 	platform = 'cygwin'
-elif [[ "$OSTYPE" == "msys" ]]; then
+#elif [[ "$OSTYPE" == "msys" ]]; then
+elif [[ "$OSTYPE" =~ "^msys.*" ]]; then
         # Lightweight shell and GNU utilities compiled for Windows (part of MinGW)
 	platform = 'msys'
-elif [[ "$OSTYPE" == "win32" ]]; then
+#elif [[ "$OSTYPE" == "win32" ]]; then
+elif [[ "$OSTYPE" =~ "^win32.*" ]]; then
         # I'm not sure this can happen.
         platform = 'win'
-elif [[ "$OSTYPE" == "freebsd"* ]]; then
+#elif [[ "$OSTYPE" == "freebsd"* ]]; then
+elif [[ "$OSTYPE" =~ "^freebsd.*" ]]; then
         platform = 'freebsd'
 fi
 
@@ -88,6 +94,18 @@ fi
 #   2. MAKE TERMINAL BETTER
 #   -----------------------------
 
+#alias to refer to non aliased commands
+bcd() { builtin cd "$@"; }
+bgrep() { bultin grep "$@"; }
+bcat() { bultin cat "$@"; }
+bcp() { bultin cp "$@"; }
+bmv() { bultin mv "$@"; }
+bmkdir() { bultin mkdir "$@"; }
+bdf() { bultin df "$@"; }
+bdu() { bultin du "$@"; }
+bpbcopy() { bultin pbcopy "$@"; }
+bpbpaste() { bultin pbpaste "$@"; }
+
 alias cp='cp -iv'                                       # Preferred 'cp' implementation
 alias mv='mv -iv'                                       # Preferred 'mv' implementation
 alias mkdir='mkdir -pv'                                 # Preferred 'mkdir' implementation
@@ -103,6 +121,7 @@ elif [[ "$platform" == "osx" ]]; then
         alias df='df -H'
         alias du='du -H'
 fi
+
 
 #alias less='less -FSRXc'                               # Preferred 'less' implementation
 cd() { builtin cd "$@"; ll; }                           # Always list directory contents upon 'cd'
@@ -233,3 +252,5 @@ parse_git_branch() {
 #  git branch 2> /dev/null | sed -e '/^[^*]/d' -d 's/* \(.*\)/ (\1)/'
   git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
 }
+
+exit
