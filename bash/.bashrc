@@ -3,30 +3,37 @@
 platform='unknown'
 username=$(whoami)
 
-#if [[ "$OSTYPE" == "linux-gnu" ]]; then
-if [[ "$OSTYPE" =~ "^linux.*" ]]; then
+rlinux='^linux.*'
+rosx='^darwin.*'
+rcygwin='^cygwin.*'
+rmsys='^msys.*'
+rwin32='^win32.*'
+rfreebsd='^freebsd.*'
+
+#if [[ $OSTYPE == "linux-gnu" ]]; then
+if [[ $OSTYPE =~ $rlinux ]]; then
         platform='linux'
-#elif [[ "$OSTYPE" == "darwin"* ]]; then
-elif [[ "$OSTYPE" =~ "^darwin.*" ]]; then
+#elif [[ $OSTYPE == "darwin"* ]]; then
+elif [[ $OSTYPE =~ $rosx ]]; then
         platform='osx'
-#elif [[ "$OSTYPE" == "cygwin" ]]; then
-elif [[ "$OSTYPE" =~ "^cygwin.*" ]]; then
+#elif [[ $OSTYPE == "cygwin" ]]; then
+elif [[ $OSTYPE =~ $rcygwin ]]; then
         # POSIX compatibility layer and Linux environment emulation for Windows
 	platform = 'cygwin'
-#elif [[ "$OSTYPE" == "msys" ]]; then
-elif [[ "$OSTYPE" =~ "^msys.*" ]]; then
+#elif [[ $OSTYPE == "msys" ]]; then
+elif [[ $OSTYPE =~ $rmsys ]]; then
         # Lightweight shell and GNU utilities compiled for Windows (part of MinGW)
 	platform = 'msys'
-#elif [[ "$OSTYPE" == "win32" ]]; then
-elif [[ "$OSTYPE" =~ "^win32.*" ]]; then
+#elif [[ $OSTYPE == "win32" ]]; then
+elif [[ $OSTYPE =~ $rwin32 ]]; then
         # I'm not sure this can happen.
         platform = 'win'
-#elif [[ "$OSTYPE" == "freebsd"* ]]; then
-elif [[ "$OSTYPE" =~ "^freebsd.*" ]]; then
+#elif [[ $OSTYPE == "freebsd"* ]]; then
+elif [[ $OSTYPE =~ $rfreebsd ]]; then
         platform = 'freebsd'
 fi
 
-#echo "Running on "$platform" as user = "$username
+#echo "Running on OS = "$OSTYPE" as user = "$username" and found platform to be = "$platform
 
 #   -------------------------------
 #   1. ENVIRONMENT CONFIGURATION
