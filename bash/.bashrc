@@ -10,30 +10,24 @@ rmsys='^msys.*'
 rwin32='^win32.*'
 rfreebsd='^freebsd.*'
 
-#if [[ $OSTYPE == "linux-gnu" ]]; then
 if [[ $OSTYPE =~ $rlinux ]]; then
-        platform='linux'
-#elif [[ $OSTYPE == "darwin"* ]]; then
+	platform='linux'
 elif [[ $OSTYPE =~ $rosx ]]; then
-        platform='osx'
-#elif [[ $OSTYPE == "cygwin" ]]; then
+	platform='osx'
 elif [[ $OSTYPE =~ $rcygwin ]]; then
-        # POSIX compatibility layer and Linux environment emulation for Windows
+	# POSIX compatibility layer and Linux environment emulation for Windows
 	platform = 'cygwin'
-#elif [[ $OSTYPE == "msys" ]]; then
 elif [[ $OSTYPE =~ $rmsys ]]; then
-        # Lightweight shell and GNU utilities compiled for Windows (part of MinGW)
+	# Lightweight shell and GNU utilities compiled for Windows (part of MinGW)
 	platform = 'msys'
-#elif [[ $OSTYPE == "win32" ]]; then
 elif [[ $OSTYPE =~ $rwin32 ]]; then
-        # I'm not sure this can happen.
-        platform = 'win'
-#elif [[ $OSTYPE == "freebsd"* ]]; then
+	# I'm not sure this can happen.
+	platform = 'win'
 elif [[ $OSTYPE =~ $rfreebsd ]]; then
-        platform = 'freebsd'
+	platform = 'freebsd'
 fi
 
-#echo "Running on OS = "$OSTYPE" as user = "$username" and found platform to be = "$platform
+#echo "Running on OS = "$OSTYPE" as user = $username and found platform to be = "$platform
 
 #   -------------------------------
 #   1. ENVIRONMENT CONFIGURATION
@@ -46,28 +40,27 @@ PS1="[\e[38;5;43m\]\u@\h\[\e[00m\]:\[\e[38;5;43m\]\w\[\e[00m\]\$ "
 # For any user made them standout as yellow. If they are root or sona, below PS1 will set appropriate colour
 
 
-if [[ "$username" == "root" ]]; then
-        if [[ "$platform" == "linux" ]]; then
-                # Red prompt, red colour dir
-                PS1="\e[38;5;1m\]\t @\h\[\e[00m\]:\[\e[38;5;1m\]\w\[\e[00m\]\$ "
-        elif [[ "$platform" == "osx" ]]; then
-                # White on red prompt, red colour dir
-                #PS1="\e[48;5;1m\]\u@\h\[\e[00m\]:\[\e[31m\]\w\[\e[00m\]\$ "
-                PS1="\e[48;5;1m\] \t \[\e[00m\]:\[\e[31m\]\w\[\e[00m\]\$ "
-        fi
+if [[ $username == "root" ]]; then
+	if [[ $platform == "linux" ]]; then
+		# Red prompt, red colour dir
+		PS1="\e[38;5;1m\]\t @\h\[\e[00m\]:\[\e[38;5;1m\]\w\[\e[00m\]\$ "
+	elif [[ $platform == "osx" ]]; then
+		# White on red prompt, red colour dir
+		#PS1="\e[48;5;1m\]\u@\h\[\e[00m\]:\[\e[31m\]\w\[\e[00m\]\$ "
+		PS1="\e[48;5;1m\] \t \[\e[00m\]:\[\e[31m\]\w\[\e[00m\]\$ "
+	fi
 fi
 
-if [[ "$username" == "sona" ]]; then
-        if [[ "$platform" == "linux" ]]; then
-                # green prompt, green colour dir
-                PS1="\e[38;5;82m\]\t @\h\[\e[00m\]:\[\e[38;5;82m\]\w\[\e[00m\]\$ "
-        elif [[ "$platform" == "osx" ]]; then
-                # orange prompt, yellow colour dir
-                #PS1='\e[38;5;208m\]\u@\h\[\e[00m\]:\[\e[38;5;226m\]\w\[\e[00m\]\$ '
-                #PS1="\e[38;5;208m\]\u\[\e[00m\]@\e[38;5;208m\]\h\[\e[00m\]:\[\e[38;5;226m\]\w\[\e[38;5;82m\]\$(parse_git_branch)\e[38;5;208m\]\$(parse_git_dirty)\[\e[00m\]\$ "
-                PS1="\[\e[0;32m\] \[\e[1;32m\]\t \[\e[38;5;208m\]\w\[\e[38;5;82m\]\$(parse_git_branch)\e[38;5;208m\]\$(parse_git_dirty)\[\e[00m\]\$ "
-
-        fi
+if [[ $username == "sona" ]]; then
+	if [[ $platform == "linux" ]]; then
+		# green prompt, green colour dir
+		PS1="\e[38;5;82m\]\t @\h\[\e[00m\]:\[\e[38;5;82m\]\w\[\e[00m\]\$ "
+	elif [[ $platform == "osx" ]]; then
+		# orange prompt, yellow colour dir
+		#PS1='\e[38;5;208m\]\u@\h\[\e[00m\]:\[\e[38;5;226m\]\w\[\e[00m\]\$ '
+		#PS1="\e[38;5;208m\]\u\[\e[00m\]@\e[38;5;208m\]\h\[\e[00m\]:\[\e[38;5;226m\]\w\[\e[38;5;82m\]\$(parse_git_branch)\e[38;5;208m\]\$(parse_git_dirty)\[\e[00m\]\$ "
+		PS1="\[\e[0;32m\] \[\e[1;32m\]\t \[\e[38;5;208m\]\w\[\e[38;5;82m\]\$(parse_git_branch)\e[38;5;208m\]\$(parse_git_dirty)\[\e[00m\]\$ "
+	fi
 fi
 
 # Green prompt, green colour dir (34m is green on CentOS !!)
@@ -94,7 +87,7 @@ fi
 
 #   Set Default Editor (change 'Nano' to the editor of your choice)
 #   ------------------------------------------------------------
-    export EDITOR=/usr/bin/nano
+	export EDITOR=/usr/bin/nano
 
 
 #   -----------------------------
@@ -116,17 +109,17 @@ bpbpaste() { bultin pbpaste "$@"; }
 alias cp='cp -iv'                                       # Preferred 'cp' implementation
 alias mv='mv -iv'                                       # Preferred 'mv' implementation
 alias mkdir='mkdir -pv'                                 # Preferred 'mkdir' implementation
-if [[ "$platform" == "linux" ]]; then
-        alias ll='ls -Flhp --group-directories-first --color=auto'       # Preferred 'll' implementation
-        alias lla='ls -FlhpA --group-directories-first --color=auto'     # Preferred 'lla' implementation
-        alias df='df -h -x tmpfs -x devtmpfs'
-        alias du='du -h's
-elif [[ "$platform" == "osx" ]]; then
-        alias ll='ls -FGlhp'                            # Preferred 'll' implementation
-        alias lla='ls -FGlhpA'                          # Preferred 'lla' implementation
-        alias lsd="ls -lF ${colorflag} | grep --color=never '^d'"       #list only directories
-        alias df='df -H'
-        alias du='du -H'
+if [[ $platform == "linux" ]]; then
+	alias ll='ls -Flhp --group-directories-first --color=auto'       # Preferred 'll' implementation
+	alias lla='ls -FlhpA --group-directories-first --color=auto'     # Preferred 'lla' implementation
+	alias df='df -h -x tmpfs -x devtmpfs'
+	alias du='du -h's
+elif [[ $platform == "osx" ]]; then
+	alias ll='ls -FGlhp'                            # Preferred 'll' implementation
+	alias lla='ls -FGlhpA'                          # Preferred 'lla' implementation
+	alias lsd="ls -lF ${colorflag} | grep --color=never '^d'"       #list only directories
+	alias df='df -H'
+	alias du='du -H'
 fi
 
 
@@ -142,33 +135,33 @@ alias .4='cd ../../../../'                              # Go back 4 directory le
 alias .5='cd ../../../../../'                           # Go back 5 directory levels
 alias .6='cd ../../../../../../'                        # Go back 6 directory levels
 
-if [[ "$platform" == "osx" ]]; then
-        alias cdc='cd ~/z.code'
-        alias cda='cd ~/z.ansible'
-        alias cdar='cd ~/.ansible/roles'
-        alias cdn='cd ~/z.dotnet'
-        alias cdp='cd ~/z.python'
-        alias cdv='cd ~/r.devops'
-        alias cdf='cd ~/r.dotfiles'
-        alias cdr='cd ~/zrmac'
-        alias cdd='cd ~/zdisk'
-        alias cdl='cd ~/zlinux'
-        alias cdm='cd ~/zgrm'
-        alias cdo='cd ~/zgro'
-        alias cd0='cd "/od/OneDrive - sgl/"'
-        alias cd0h='cd "/od/OneDrive - sgl/zhs"'
-        alias cd0m='cd "/od/OneDrive - sgl/zgrm"'
-        alias cd0o='cd "/od/OneDrive - sgl/zgro"'
-        alias cd0a='cd "/od/OneDrive - sgl/zaro"'
+if [[ $platform == "osx" ]]; then
+	alias cdc='cd ~/z.code'
+	alias cda='cd ~/z.ansible'
+	alias cdar='cd ~/.ansible/roles'
+	alias cdn='cd ~/z.dotnet'
+	alias cdp='cd ~/z.python'
+	alias cdv='cd ~/r.devops'
+	alias cdf='cd ~/r.dotfiles'
+	alias cdr='cd ~/zrmac'
+	alias cdd='cd ~/zdisk'
+	alias cdl='cd ~/zlinux'
+	alias cdm='cd ~/zgrm'
+	alias cdo='cd ~/zgro'
+	alias cd0='cd "/od/OneDrive - sgl/"'
+	alias cd0h='cd "/od/OneDrive - sgl/zhs"'
+	alias cd0m='cd "/od/OneDrive - sgl/zgrm"'
+	alias cd0o='cd "/od/OneDrive - sgl/zgro"'
+	alias cd0a='cd "/od/OneDrive - sgl/zaro"'
 
-        alias gs='git status'
-        alias ga='git add -u;git add *'
-        alias gp='git push'
-        #TODO: alias gitmm='$old=$(parse_git_branch); git push; git checkout master; git merge $old; git checkout $old'
-        alias gc='git commit -m'
+	alias gs='git status'
+	alias ga='git add -u;git add *'
+	alias gp='git push'
+	#TODO: alias gitmm='$old=$(parse_git_branch); git push; git checkout master; git merge $old; git checkout $old'
+	alias gc='git commit -m'
 
-        alias ansible-lint='ansible-lint --force-color'
-        alias al='ansible-lint'
+	alias ansible-lint='ansible-lint --force-color'
+	alias al='ansible-lint'
 fi
 
 alias grep='grep --colour=always'
@@ -181,8 +174,8 @@ alias cat='cat -n'                                      # To display line number
 
 mkd () { mkdir -p "$1" && cd "$1"; }                    # mkd:          Makes new Dir and jumps inside
 
-if [[ "$platform" == "osx" ]]; then
-        trash () { command mv "$@" ~/.Trash ; }         # trash:        Moves a file to the MacOS trash
+if [[ $platform == "osx" ]]; then
+	trash () { command mv "$@" ~/.Trash ; }         # trash:        Moves a file to the MacOS trash
 fi
 
 #   lr:  Full Recursive Directory Listing
@@ -192,13 +185,13 @@ alias lr='ls -R | grep ":$" | sed -e '\''s/:$//'\'' -e '\''s/[^-][^\/]*\//--/g'\
 #   mans:   Search manpage given in agument '1' for term given in argument '2' (case insensitive)
 #           displays paginated result with colored search terms and two lines surrounding each hit.            Example: mans mplayer codec
 #   --------------------------------------------------------------------
-    mans () {
-        man $1 | grep -iC2 --color=always $2 | less
-    }
+	mans () {
+		man $1 | grep -iC2 --color=always $2 | less
+	}
 
 #   showa: to remind yourself of an alias (given some part of it)
 #   ------------------------------------------------------------
-    showa () { /usr/bin/grep --color=always -i -a1 $@ ~/Library/init/bash/aliases.bash | grep -v '^\s*$' | less -FSRXc ; }
+	showa () { /usr/bin/grep --color=always -i -a1 $@ ~/Library/init/bash/aliases.bash | grep -v '^\s*$' | less -FSRXc ; }
 
 #   -------------------------------
 #   3. FILE AND FOLDER MANAGEMENT
@@ -227,16 +220,16 @@ export PROJECT_HOME=$HOME/zPython/
 
 #below line is for setting a custom path for python (e.g. python3 installed using homebrew)
 #export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python3
-if [[ "$platform" == "linux" ]]; then
-        export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
-        if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
-                source /usr/bin/virtualenvwrapper.sh
-        fi
-elif [[ "$platform" == "osx" ]]; then
-        export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python3
-        if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
-                source /usr/local/bin/virtualenvwrapper.sh
-        fi
+if [[ $platform == "linux" ]]; then
+	export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
+	if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
+		source /usr/bin/virtualenvwrapper.sh
+	fi
+elif [[ $platform == "osx" ]]; then
+	export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python3
+	if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
+		source /usr/local/bin/virtualenvwrapper.sh
+	fi
 fi
 
 
@@ -250,14 +243,17 @@ GIT_PS1_SHOWCOLORHINTS=true
 GIT_PS1_SHOWDIRTYSTATE=true
 
 # Find dirty state
-parse_git_dirty() {
-  [[ -n "$(git status -s 2> /dev/null)" ]] && echo "*"
-}
+#parse_git_dirty() {
+#  [[ -n "$(git status -s 2> /dev/null)" ]] && echo "*"
+#}
+# Find dirty state
+parse_git_dirty() { [[ -n "$(git status -s 2> /dev/null)" ]] && echo "*" }
 
 # Get branch name
-parse_git_branch() {
+#parse_git_branch() {
+##  git branch 2> /dev/null | sed -e '/^[^*]/d' -d 's/* \(.*\)/ (\1)/'
+#  git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
+#}
+# Get branch name
+parse_git_branch() { git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/' }
 #  git branch 2> /dev/null | sed -e '/^[^*]/d' -d 's/* \(.*\)/ (\1)/'
-  git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
-}
-
-exit
