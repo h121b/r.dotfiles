@@ -243,17 +243,13 @@ GIT_PS1_SHOWCOLORHINTS=true
 GIT_PS1_SHOWDIRTYSTATE=true
 
 # Find dirty state
-#parse_git_dirty() {
-#  [[ -n "$(git status -s 2> /dev/null)" ]] && echo "*"
-#}
-# Find dirty state
-parse_git_dirty() { [[ -n "$(git status -s 2> /dev/null)" ]] && echo "*" }
+parse_git_dirty() {
+	[[ -n "$(git status -s 2> /dev/null)" ]] && echo "*"
+}
 
 # Get branch name
-#parse_git_branch() {
-##  git branch 2> /dev/null | sed -e '/^[^*]/d' -d 's/* \(.*\)/ (\1)/'
-#  git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
-#}
-# Get branch name
-parse_git_branch() { git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/' }
+parse_git_branch() {
 #  git branch 2> /dev/null | sed -e '/^[^*]/d' -d 's/* \(.*\)/ (\1)/'
+	git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
+}
+
